@@ -26,6 +26,21 @@ func ReadLinesAsInts(fname string) []int {
 	return ints
 }
 
+func ReadLinesAsStrings(fname string) []string {
+	file, err := os.Open(fname)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+	var strs []string
+	scan := bufio.NewScanner(file)
+	for scan.Scan() {
+		str := scan.Text()
+		strs = append(strs, str)
+	}
+	return strs
+}
+
 func ReadLinesAsStringSlices(fname string) [][]string {
 	file, err := os.Open(fname)
 	if err != nil {
