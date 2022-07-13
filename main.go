@@ -1,9 +1,11 @@
 package main
 
 import (
-	"fmt"
+	// "masonheverett/advent-of-go/year2021/day01"
+	"masonheverett/advent-of-go/year2021/day02"
 )
 
 func main() {
-	fmt.Println("Hello, Go!")
+	// day01.Solve()
+	day02.Solve()
 }
