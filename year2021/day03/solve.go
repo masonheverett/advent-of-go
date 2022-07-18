@@ -1,18 +1,23 @@
 package day03
 
 import (
+	_ "embed"
 	"fmt"
-	"log"
 	"masonheverett/advent-of-go/util"
-	"strconv"
+	"strings"
 )
 
+//go:embed input.txt
+var input string
+
 func Solve() {
-	lines := util.ReadLinesAsStrings("year2021/day03/input.txt")
-	util.PrintHeader(2021, 3, 1)
+	lines := parseInput()
 	part1(lines)
-	util.PrintHeader(2021, 3, 2)
 	part2(lines)
+}
+
+func parseInput() []string {
+	return strings.Split(input, "\n")
 }
 
 func part1(lines []string) {
@@ -40,14 +45,10 @@ func part1(lines []string) {
 func part2(lines []string) {
 	nums := lines
 	var oxy, co2 uint64
-	var err error
 	for i := 0; i < len(nums[0]); i++ {
 		nums = trim(nums, i, true)
 		if len(nums) == 1 {
-			oxy, err = strconv.ParseUint(nums[0], 2, 64)
-			if err != nil {
-				log.Fatal(err)
-			}
+			oxy = util.BinStringToUint64(nums[0])
 			break
 		}
 	}
@@ -55,10 +56,7 @@ func part2(lines []string) {
 	for i := 0; i < len(nums[0]); i++ {
 		nums = trim(nums, i, false)
 		if len(nums) == 1 {
-			co2, err = strconv.ParseUint(nums[0], 2, 64)
-			if err != nil {
-				log.Fatal(err)
-			}
+			co2 = util.BinStringToUint64(nums[0])
 			break
 		}
 	}

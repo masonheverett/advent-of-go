@@ -1,39 +1,37 @@
 package day02
 
 import (
+	_ "embed"
 	"fmt"
-	"log"
 	"masonheverett/advent-of-go/util"
-	"strconv"
+	"strings"
 )
 
-type command struct {
+//go:embed input.txt
+var input string
+
+type Command struct {
 	dir  string
 	dist int
 }
 
 func Solve() {
-	slices := util.ReadLinesAsStringSlices("year2021/day02/input.txt")
-	commands := parseCommands(slices)
-	util.PrintHeader(2021, 2, 1)
+	commands := parseInput()
 	part1(commands)
-	util.PrintHeader(2021, 2, 2)
 	part2(commands)
 }
 
-func parseCommands(slices [][]string) []command {
-	commands := make([]command, len(slices))
-	for i, slice := range slices {
-		dist, err := strconv.Atoi(slice[1])
-		if err != nil {
-			log.Fatal(err)
-		}
-		commands[i] = command{slice[0], dist}
+func parseInput() []Command {
+	lines := strings.Split(input, "\n")
+	commands := make([]Command, len(lines))
+	for i, line := range lines {
+		pair := strings.Split(line, " ")
+		commands[i] = Command{pair[0], util.DecStringToInt(pair[1])}
 	}
 	return commands
 }
 
-func part1(commands []command) {
+func part1(commands []Command) {
 	var hrz, vrt int
 	for _, cmd := range commands {
 		switch cmd.dir {
@@ -48,7 +46,7 @@ func part1(commands []command) {
 	fmt.Println(hrz * vrt)
 }
 
-func part2(commands []command) {
+func part2(commands []Command) {
 	var hrz, vrt, aim int
 	for _, cmd := range commands {
 		switch cmd.dir {

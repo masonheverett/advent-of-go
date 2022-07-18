@@ -1,16 +1,28 @@
 package day01
 
 import (
+	_ "embed"
 	"fmt"
 	"masonheverett/advent-of-go/util"
+	"strings"
 )
 
+//go:embed input.txt
+var input string
+
 func Solve() {
-	depths := util.ReadLinesAsInts("year2021/day01/input.txt")
-	util.PrintHeader(2021, 1, 1)
+	depths := parseInput()
 	part1(depths)
-	util.PrintHeader(2021, 1, 2)
 	part2(depths)
+}
+
+func parseInput() []int {
+	depths := make([]int, len(input))
+	lines := strings.Split(input, "\n")
+	for i, line := range lines {
+		depths[i] = util.DecStringToInt(line)
+	}
+	return depths
 }
 
 func part1(depths []int) {
