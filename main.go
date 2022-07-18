@@ -6,7 +6,8 @@ import (
 	// "masonheverett/advent-of-go/year2021/day03"
 	// "masonheverett/advent-of-go/year2021/day04"
 	// "masonheverett/advent-of-go/year2021/day05"
-	"masonheverett/advent-of-go/year2021/day06"
+	// "masonheverett/advent-of-go/year2021/day06"
+	"masonheverett/advent-of-go/year2021/day07"
 )
 
 func main() {
@@ -15,5 +16,6 @@ func main() {
 	// day03.Solve()
 	// day04.Solve()
 	// day05.Solve()
-	day06.Solve()
+	// day06.Solve()
+	day07.Solve()
 }
