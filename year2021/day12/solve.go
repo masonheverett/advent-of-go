@@ -17,84 +17,19 @@ type Node struct {
 }
 
 func newNode() *Node {
-	return &Node{
-		neighbors: make([]string, 0),
-		blocked:   false,
-	}
+	return &Node{neighbors: make([]string, 0), blocked: false}
 }
 
 func (n *Node) addNeighbor(s string) {
 	n.neighbors = append(n.neighbors, s)
 }
 
-type Graph2 struct {
+type Graph struct {
 	nodes      map[string]*Node
-	smallTwice bool
+	doubleUsed bool
 }
 
-func Solve() {
-	part1(parseInput())
-	part2(parseInput())
-}
-
-func parseInput() map[string]*Node {
-	lines := strings.Split(input, "\n")
-	graph := make(map[string]*Node)
-	for _, line := range lines {
-		edge := strings.Split(line, "-")
-		if _, exists := graph[edge[0]]; !exists {
-			graph[edge[0]] = newNode()
-		}
-		graph[edge[0]].addNeighbor(edge[1])
-		if _, exists := graph[edge[1]]; !exists {
-			graph[edge[1]] = newNode()
-		}
-		graph[edge[1]].addNeighbor(edge[0])
-	}
-	return graph
-}
-
-func part1(graph map[string]*Node) {
-	pathCount = 0
-	findPaths1(graph, "start")
-	fmt.Println(pathCount)
-}
-
-func part2(graph map[string]*Node) {
-	pathCount = 0
-	findPaths2(Graph2{graph, false}, "start")
-	fmt.Println(pathCount)
-}
-
-func copyGraph1(graph map[string]*Node) map[string]*Node {
-	newGraph := make(map[string]*Node)
-	for key, val := range graph {
-		newGraph[key] = newNode()
-		newGraph[key].blocked = val.blocked
-		for _, neighbor := range val.neighbors {
-			newGraph[key].addNeighbor(neighbor)
-		}
-	}
-	return newGraph
-}
-
-func findPaths1(graph map[string]*Node, next string) {
-	if graph[next].blocked {
-		return
-	}
-	if next == "end" {
-		pathCount++
-		return
-	}
-	if strings.ToLower(next) == next {
-		graph[next].blocked = true
-	}
-	for _, neighbor := range graph[next].neighbors {
-		findPaths1(copyGraph1(graph), neighbor)
-	}
-}
-
-func copyGraph2(graph Graph2) Graph2 {
+func copyGraph(graph Graph) Graph {
 	newNodes := make(map[string]*Node)
 	for key, val := range graph.nodes {
 		newNodes[key] = newNode()
@@ -103,28 +38,60 @@ func copyGraph2(graph Graph2) Graph2 {
 			newNodes[key].addNeighbor(neighbor)
 		}
 	}
-	return Graph2{nodes: newNodes, smallTwice: graph.smallTwice}
+	return Graph{nodes: newNodes, doubleUsed: graph.doubleUsed}
 }
 
-func findPaths2(graph Graph2, next string) {
-	if next == "start" && graph.nodes[next].blocked {
-		return
+func Solve() {
+	part1(parseInput())
+	part2(parseInput())
+}
+
+func parseInput() Graph {
+	lines := strings.Split(input, "\n")
+	nodes := make(map[string]*Node)
+	for _, line := range lines {
+		edge := strings.Split(line, "-")
+		if _, exists := nodes[edge[0]]; !exists {
+			nodes[edge[0]] = newNode()
+		}
+		nodes[edge[0]].addNeighbor(edge[1])
+		if _, exists := nodes[edge[1]]; !exists {
+			nodes[edge[1]] = newNode()
+		}
+		nodes[edge[1]].addNeighbor(edge[0])
 	}
-	if graph.nodes[next].blocked && graph.smallTwice {
-		return
-	}
+	return Graph{nodes: nodes, doubleUsed: false}
+}
+
+func part1(graph Graph) {
+	pathCount = 0
+	graph.doubleUsed = true
+	findPaths(graph, "start")
+	fmt.Println(pathCount)
+}
+
+func part2(graph Graph) {
+	pathCount = 0
+	findPaths(graph, "start")
+	fmt.Println(pathCount)
+}
+
+func findPaths(graph Graph, next string) {
 	if next == "end" {
 		pathCount++
+		return
+	}
+	if graph.nodes[next].blocked && (next == "start" || graph.doubleUsed) {
 		return
 	}
 	if strings.ToLower(next) == next {
 		if next == "start" || !graph.nodes[next].blocked {
 			graph.nodes[next].blocked = true
 		} else {
-			graph.smallTwice = true
+			graph.doubleUsed = true
 		}
 	}
 	for _, neighbor := range graph.nodes[next].neighbors {
-		findPaths2(copyGraph2(graph), neighbor)
+		findPaths(copyGraph(graph), neighbor)
 	}
 }
