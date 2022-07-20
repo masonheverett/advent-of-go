@@ -11,7 +11,8 @@ import (
 	// "masonheverett/advent-of-go/year2021/day08"
 	// "masonheverett/advent-of-go/year2021/day09"
 	// "masonheverett/advent-of-go/year2021/day10"
-	"masonheverett/advent-of-go/year2021/day11"
+	// "masonheverett/advent-of-go/year2021/day11"
+	"masonheverett/advent-of-go/year2021/day12"
 )
 
 func main() {
@@ -25,5 +26,6 @@ func main() {
 	// day08.Solve()
 	// day09.Solve()
 	// day10.Solve()
-	day11.Solve()
+	// day11.Solve()
+	day12.Solve()
 }
