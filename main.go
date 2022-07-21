@@ -1,33 +1,21 @@
 package main
 
 import (
-	// "masonheverett/advent-of-go/year2021/day01"
-	// "masonheverett/advent-of-go/year2021/day02"
-	// "masonheverett/advent-of-go/year2021/day03"
-	// "masonheverett/advent-of-go/year2021/day04"
-	// "masonheverett/advent-of-go/year2021/day05"
-	// "masonheverett/advent-of-go/year2021/day06"
-	// "masonheverett/advent-of-go/year2021/day07"
-	// "masonheverett/advent-of-go/year2021/day08"
-	// "masonheverett/advent-of-go/year2021/day09"
-	// "masonheverett/advent-of-go/year2021/day10"
-	// "masonheverett/advent-of-go/year2021/day11"
-	// "masonheverett/advent-of-go/year2021/day12"
-	"masonheverett/advent-of-go/year2021/day13"
+	"flag"
+	"fmt"
+	"masonheverett/advent-of-go/year2021"
 )
 
 func main() {
-	// day01.Solve()
-	// day02.Solve()
-	// day03.Solve()
-	// day04.Solve()
-	// day05.Solve()
-	// day06.Solve()
-	// day07.Solve()
-	// day08.Solve()
-	// day09.Solve()
-	// day10.Solve()
-	// day11.Solve()
-	// day12.Solve()
-	day13.Solve()
+	var year, day int
+	flag.IntVar(&year, "y", 2015, "Specify year")
+	flag.IntVar(&day, "d", 1, "Specify day")
+	flag.Parse()
+	fmt.Printf("\n🎄 Advent of Go, Year %v, Day %v 🎄\n\n", year, day)
+	switch year {
+	case 2015, 2016, 2017, 2018, 2019, 2020:
+		fmt.Printf("Year %v not started yet\n", year)
+	case 2021:
+		year2021.SolveDay(day)
+	}
 }
