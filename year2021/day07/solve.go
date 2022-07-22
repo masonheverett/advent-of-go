@@ -49,15 +49,12 @@ func part2(pos []int) {
 	for i := min; i <= max; i++ {
 		cost := 0
 		for _, p := range pos {
-			cost += fuelCost(int(math.Abs(float64(p - i))))
+			n := int(math.Abs(float64(p - i)))
+			cost += n * (n + 1) / 2
 		}
 		if i == min || least > cost {
 			least = cost
 		}
 	}
 	fmt.Println(least)
-}
-
-func fuelCost(n int) int {
-	return n * (n + 1) / 2
 }

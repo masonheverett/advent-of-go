@@ -19,3 +19,19 @@ func MinInt(nums []int) int {
 	}
 	return min
 }
+
+func Product(nums []int) int {
+	product := 1
+	for _, n := range nums {
+		product *= n
+	}
+	return product
+}
+
+func Sum(nums []int) int {
+	sum := 0
+	for _, n := range nums {
+		sum += n
+	}
+	return sum
+}

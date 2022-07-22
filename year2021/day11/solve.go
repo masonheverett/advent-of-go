@@ -15,7 +15,6 @@ type Point struct {
 }
 
 func Solve() {
-	// Need 2 different copies on the input on this one
 	part1(parseInput())
 	part2(parseInput())
 }

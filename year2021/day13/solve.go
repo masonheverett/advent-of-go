@@ -19,43 +19,6 @@ type Fold struct {
 	value int
 }
 
-func Solve() {
-	part1(parseInput())
-	part2(parseInput())
-}
-
-func parseInput() (map[Point]bool, []Fold) {
-	sections := strings.Split(input, "\n\n")
-	points := make(map[Point]bool)
-	for _, line := range strings.Split(sections[0], "\n") {
-		pair := strings.Split(line, ",")
-		points[Point{
-			x: util.DecStringToInt(pair[0]),
-			y: util.DecStringToInt(pair[1]),
-		}] = true
-	}
-	foldLines := strings.Split(sections[1], "\n")
-	folds := make([]Fold, len(foldLines))
-	for i, line := range foldLines {
-		words := strings.Split(line, " ")
-		pair := strings.Split(words[2], "=")
-		folds[i].axis = pair[0]
-		folds[i].value = util.DecStringToInt(pair[1])
-	}
-	return points, folds
-}
-
-func part1(points map[Point]bool, folds []Fold) {
-	fmt.Println(len(foldPaper(points, folds[0])))
-}
-
-func part2(points map[Point]bool, folds []Fold) {
-	for _, fold := range folds {
-		points = foldPaper(points, fold)
-	}
-	printPaper(points)
-}
-
 func foldPaper(points map[Point]bool, fold Fold) map[Point]bool {
 	newPoints := make(map[Point]bool)
 	for point := range points {
@@ -94,4 +57,41 @@ func printPaper(points map[Point]bool) {
 	for _, row := range grid {
 		fmt.Println(string(row))
 	}
+}
+
+func Solve() {
+	part1(parseInput())
+	part2(parseInput())
+}
+
+func parseInput() (map[Point]bool, []Fold) {
+	sections := strings.Split(input, "\n\n")
+	points := make(map[Point]bool)
+	for _, line := range strings.Split(sections[0], "\n") {
+		pair := strings.Split(line, ",")
+		points[Point{
+			x: util.DecStringToInt(pair[0]),
+			y: util.DecStringToInt(pair[1]),
+		}] = true
+	}
+	foldLines := strings.Split(sections[1], "\n")
+	folds := make([]Fold, len(foldLines))
+	for i, line := range foldLines {
+		words := strings.Split(line, " ")
+		pair := strings.Split(words[2], "=")
+		folds[i].axis = pair[0]
+		folds[i].value = util.DecStringToInt(pair[1])
+	}
+	return points, folds
+}
+
+func part1(points map[Point]bool, folds []Fold) {
+	fmt.Println(len(foldPaper(points, folds[0])))
+}
+
+func part2(points map[Point]bool, folds []Fold) {
+	for _, fold := range folds {
+		points = foldPaper(points, fold)
+	}
+	printPaper(points)
 }

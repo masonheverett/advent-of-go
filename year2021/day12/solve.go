@@ -29,16 +29,36 @@ type Graph struct {
 	doubleUsed bool
 }
 
-func copyGraph(graph Graph) Graph {
+func (g *Graph) copy() *Graph {
 	newNodes := make(map[string]*Node)
-	for key, val := range graph.nodes {
+	for key, val := range g.nodes {
 		newNodes[key] = newNode()
 		newNodes[key].blocked = val.blocked
 		for _, neighbor := range val.neighbors {
 			newNodes[key].addNeighbor(neighbor)
 		}
 	}
-	return Graph{nodes: newNodes, doubleUsed: graph.doubleUsed}
+	return &Graph{nodes: newNodes, doubleUsed: g.doubleUsed}
+}
+
+func (g *Graph) findPaths(next string) {
+	if next == "end" {
+		pathCount++
+		return
+	}
+	if g.nodes[next].blocked && (next == "start" || g.doubleUsed) {
+		return
+	}
+	if strings.ToLower(next) == next {
+		if next == "start" || !g.nodes[next].blocked {
+			g.nodes[next].blocked = true
+		} else {
+			g.doubleUsed = true
+		}
+	}
+	for _, neighbor := range g.nodes[next].neighbors {
+		g.copy().findPaths(neighbor)
+	}
 }
 
 func Solve() {
@@ -66,32 +86,12 @@ func parseInput() Graph {
 func part1(graph Graph) {
 	pathCount = 0
 	graph.doubleUsed = true
-	findPaths(graph, "start")
+	graph.findPaths("start")
 	fmt.Println(pathCount)
 }
 
 func part2(graph Graph) {
 	pathCount = 0
-	findPaths(graph, "start")
+	graph.findPaths("start")
 	fmt.Println(pathCount)
-}
-
-func findPaths(graph Graph, next string) {
-	if next == "end" {
-		pathCount++
-		return
-	}
-	if graph.nodes[next].blocked && (next == "start" || graph.doubleUsed) {
-		return
-	}
-	if strings.ToLower(next) == next {
-		if next == "start" || !graph.nodes[next].blocked {
-			graph.nodes[next].blocked = true
-		} else {
-			graph.doubleUsed = true
-		}
-	}
-	for _, neighbor := range graph.nodes[next].neighbors {
-		findPaths(copyGraph(graph), neighbor)
-	}
 }
