@@ -16,6 +16,7 @@ import (
 	"masonheverett/advent-of-go/year2021/day12"
 	"masonheverett/advent-of-go/year2021/day13"
 	"masonheverett/advent-of-go/year2021/day14"
+	"masonheverett/advent-of-go/year2021/day15"
 )
 
 func SolveDay(day int) {
@@ -48,7 +49,9 @@ func SolveDay(day int) {
 		day13.Solve()
 	case 14:
 		day14.Solve()
-	case 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25:
+	case 15:
+		day15.Solve()
+	case 16, 17, 18, 19, 20, 21, 22, 23, 24, 25:
 		fmt.Printf("Day %v not completed yet\n", day)
 	}
 }
